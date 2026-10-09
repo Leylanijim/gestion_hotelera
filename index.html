@@ -1,13 +1,77 @@
+
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Kiin Saasil · Gestión hotelera</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kiin Saasil · Gestión hotelera</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div id="app"></div>
-  <script src="app.js"></script>
+    <div id="app">
+        <p style="text-align:center; padding:40px;">
+            Verificando sesión...
+        </p>
+    </div>
+
+    <script>
+        async function verificarAcceso() {
+            try {
+                const respuesta = await fetch("./api/session.php", {
+                    method: "GET",
+                    credentials: "same-origin",
+                    cache: "no-store"
+                });
+
+                if (!respuesta.ok) {
+                    window.location.replace("./login.html");
+                    return;
+                }
+
+                const resultado = await respuesta.json();
+
+                if (!resultado.success || !resultado.data) {
+                    window.location.replace("./login.html");
+                    return;
+                }
+
+                const rol = resultado.data.rol;
+
+                if (rol === "Recepcionista") {
+                    window.location.replace(
+                        "./Recepcionista/index.html"
+                    );
+                    return;
+                }
+
+                if (rol !== "Administrador") {
+                    window.location.replace("./login.html");
+                    return;
+                }
+
+                // Cargar el panel solamente después
+                // de verificar la sesión y el rol.
+                document.getElementById("app").innerHTML = "";
+
+                const script = document.createElement("script");
+                script.src = "./app.js";
+                document.body.appendChild(script);
+
+            } catch (error) {
+                console.error(
+                    "Error al verificar sesión:",
+                    error
+                );
+
+                window.location.replace("./login.html");
+            }
+        }
+
+        verificarAcceso();
+    </script>
 </body>
 </html>
+

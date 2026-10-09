@@ -1,1 +1,85 @@
-<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kiin Saasil</title><link rel="stylesheet" href="styles.css"></head><body><div id="app"></div><div id="toast"></div><script src="app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kiin Saasil | Recepción</title>
+
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <p style="text-align:center; padding:40px;">
+            Verificando sesión...
+        </p>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        async function verificarAccesoRecepcion() {
+            try {
+                const respuesta = await fetch("../api/session.php", {
+                    method: "GET",
+                    credentials: "same-origin",
+                    cache: "no-store"
+                });
+
+                if (!respuesta.ok) {
+                    window.location.replace("../login.html");
+                    return;
+                }
+
+                const resultado = await respuesta.json();
+
+                if (!resultado.success || !resultado.data) {
+                    window.location.replace("../login.html");
+                    return;
+                }
+
+                const rol = resultado.data.rol;
+
+                if (rol === "Administrador") {
+                    window.location.replace("../index.html");
+                    return;
+                }
+
+                if (rol !== "Recepcionista") {
+                    window.location.replace("../login.html");
+                    return;
+                }
+
+                const script = document.createElement("script");
+
+                script.src = "./app.js";
+
+                script.onerror = function () {
+                    console.error(
+                        "No se pudo cargar Recepcionista/app.js"
+                    );
+
+                    document.getElementById("app").innerHTML =
+                        '<p style="text-align:center; padding:40px;">' +
+                        'No se pudo cargar el panel de recepción.' +
+                        '</p>';
+                };
+
+                document.getElementById("app").innerHTML = "";
+                document.body.appendChild(script);
+
+            } catch (error) {
+                console.error(
+                    "Error al verificar acceso:",
+                    error
+                );
+
+                window.location.replace("../login.html");
+            }
+        }
+
+        verificarAccesoRecepcion();
+    </script>
+</body>
+</html>
