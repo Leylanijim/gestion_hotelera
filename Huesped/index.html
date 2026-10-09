@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal de huéspedes de Kiin Saasil Hotel Boutique en Campeche.">
+  <title>Kiin Saasil | Portal de huéspedes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar"><a href="#inicio" class="brand"><span class="brand-line"></span> KIIN SAASIL</a><button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button><nav id="mainNav"><a href="#inicio" data-page="inicio">Inicio</a><a href="#habitaciones" data-page="habitaciones">Habitaciones</a><a href="#amenidades" data-page="amenidades">Lugares y Amenidades</a><a href="#gastronomia" data-page="gastronomia">Gastronomía</a><a href="#servicios" data-page="servicios">Servicios</a><a href="#reservas" data-page="reservas">Mis Reservas</a><a class="login-link" href="#login" data-page="login">Login</a></nav></header>
+<main id="app" tabindex="-1"></main>
+<footer class="footer">© <span id="year"></span> Kiin Saasil Hotel Boutique · Ciudad Amurallada de Campeche</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="modal" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Cerrar">×</button><div id="modalContent"></div></section></div>
+<script src="app.js"></script>
+</body></html>
